@@ -6,29 +6,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.blogapp.data.preferences.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//AndroidViewModel 상속받으면 자동으로 Application 객체 전달..
-//class MyInfoViewModel(application: Application): AndroidViewModel(application) {
 
 @HiltViewModel
-class MyInfoViewModel @Inject constructor(): ViewModel(){
-    //컴포즈의 상태로 데이터를 공유하는 방법..
-//    var email by mutableStateOf("")
-//        private set
+class MyInfoViewModel @Inject constructor(
+    private val userPreferences: UserPreferences
+) : ViewModel() {
 
-    //코루틴 flow 활용..
-    //MutableStateFlow : 변경가능
-    //StateFlow : 구독만 가능..
-    private val _email = MutableStateFlow("")
-    //외부에서 이용.. 외부에서 데이터 구독만 가능하고 직접 변경 못하게 하려고..
-    val email: StateFlow<String> = _email.asStateFlow()
 
-    fun saveEmail(email: String){
-        _email.value = email.trim()
+    val email: StateFlow<String> = userPreferences.email.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = ""
+    )
+
+    fun saveEmail(email: String) {
+        viewModelScope.launch {
+            userPreferences.saveEmail(email.trim())
+        }
     }
 }
