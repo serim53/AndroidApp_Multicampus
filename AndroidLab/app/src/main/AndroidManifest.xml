@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+앱 개발 리소스.. 모든 리소스는 res 하위에..
+//모든 리소스를 식별하기 위한 R.java 파일이 자동으로 만들어진다..
+code 에서 리소스 이용할 때는.. R.drawable.a
+xml 에서 리소스 이용할 때는.. @drawable/a
+    -->
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AndroidLab">
+
+        <!--
+앱의 컴포넌트는 안드로이드 시스템에서 라이프사이클 관리..
+안드로이드 시스템은 런타임 시점 AndroidManifest 만 보고 움직인다..
+개발자가 만든 컴포넌트 클래스는 꼭 AndroidManifest 에 등록해야 한다..
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- 아래처럼 구성된 액티비티가 유저 아이콘 클릭시 실행되는 액티비티라는 선언.. -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LayoutTestActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
