@@ -24,6 +24,8 @@ import com.example.blogapp.ui.blog.list.BlogListScreen
 import com.example.blogapp.ui.home.HomeScreen
 import com.example.blogapp.ui.myinfo.MyInfoScreen
 import com.example.blogapp.ui.myinfo.MyInfoViewModel
+import com.example.blogapp.ui.news.NewsScreen
+import com.example.blogapp.ui.news.NewsViewModel
 
 
 //각 화면을 이름으로 등록할 생각이다.
@@ -50,6 +52,8 @@ sealed class Screen(val route: String){
     object BlogDetail: Screen("blog_detail/{postId}"){
         fun createRoute(postId: Long) = "blog_detail/$postId"
     }
+
+    object News : Screen("news")
 }
 
 @Composable
@@ -90,7 +94,8 @@ fun BlogNavHost(navController: NavHostController = rememberNavController()) {
             HomeScreen(
                 viewModel = myInfoViewModel,
                 onNavigateToMyInfo = { navController.navigate(Screen.MyInfo.route)},
-                onNavigateToBlogList = { navController.navigate(Screen.BlogList.route)}
+                onNavigateToBlogList = { navController.navigate(Screen.BlogList.route)},
+                onNavigateToNews =  { navController.navigate(Screen.News.route)}
             )
         }
         composable(Screen.MyInfo.route){
@@ -163,25 +168,14 @@ fun BlogNavHost(navController: NavHostController = rememberNavController()) {
                     onDelete = { navController.popBackStack() }
                 )
             }
+
+            composable(Screen.News.route) {
+                val newsViewModel: NewsViewModel = hiltViewModel()
+                NewsScreen(
+                    viewModel = newsViewModel,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
-
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

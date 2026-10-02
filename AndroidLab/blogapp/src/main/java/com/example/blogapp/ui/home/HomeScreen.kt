@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
@@ -58,6 +59,7 @@ fun HomeScreen(
     viewModel: MyInfoViewModel,
     onNavigateToBlogList: () -> Unit,
     onNavigateToMyInfo: () -> Unit,
+    onNavigateToNews: () -> Unit
 ) {
 
 //    val email = viewModel.email
@@ -101,6 +103,15 @@ fun HomeScreen(
                         } else {
                             showSimpleNotification(context)
                         }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("뉴스") },
+                    selected = false,
+                    icon = { Icon(Icons.Default.Newspaper, contentDescription = null) },
+                    onClick = {
+                        onNavigateToNews()
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
